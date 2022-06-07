@@ -1,0 +1,11 @@
+= form_with(model: shipment_quote) do |form|
+  - if shipment_quote.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(shipment_quote.errors.count, "error")
+        prohibited this shipment_quote from being saved:
+      %ul
+        - shipment_quote.errors.each do |error|
+          %li= error.full_message
+  .actions
+    = form.submit
