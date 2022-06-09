@@ -1,4 +1,25 @@
 %p#notice= notice
-= link_to 'Edit', edit_shipment_quote_path(@shipment_quote)
+
+.address_container 
+    %h3 Pickup Address 
+    %p= @shipment_quote.pickup_address.address1
+.address_container 
+    %h3 Delivery Address 
+    %p= @shipment_quote.delivery_address.address1
+%table
+    %thead
+        %tr
+            %th Name
+            %th Delivery Option
+            %th Rate
+    %tbody
+        - CourierRate.all.each do |courier|
+            %tr
+                %td= courier.name
+                %td= courier.delivery_option
+                %td= @shipment_quote.courier_rate(courier) || 'N/A'
+
+=link_to 'Edit', edit_shipment_quote_path(@shipment_quote)
 |
 = link_to 'Back', shipment_quotes_path
+
