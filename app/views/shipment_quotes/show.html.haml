@@ -14,10 +14,11 @@
             %th Rate
     %tbody
         - CourierRate.all.each do |courier|
+            =next unless @shipment_quote.courier_rate(courier)
             %tr
                 %td= courier.name
                 %td= courier.delivery_option
-                %td= @shipment_quote.courier_rate(courier) || 'N/A'
+                %td= @shipment_quote.courier_rate(courier)
 
 =link_to 'Edit', edit_shipment_quote_path(@shipment_quote)
 |
