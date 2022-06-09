@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_07_154354) do
+ActiveRecord::Schema.define(version: 2022_06_08_135019) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,16 @@ ActiveRecord::Schema.define(version: 2022_06_07_154354) do
     t.string "province"
     t.string "country"
     t.string "zip_code"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "address_type"
+  end
+
+  create_table "courier_rates", force: :cascade do |t|
+    t.string "name"
+    t.integer "within_metro_manila"
+    t.integer "outside_metro_manila"
+    t.integer "delivery_option"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
