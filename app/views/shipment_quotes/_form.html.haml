@@ -26,10 +26,4 @@
       %th Name
       %th Delivery Option
       %th Rate
-  %tbody
-    - CourierRate.all.each do |courier|
-      %tr
-        %td= courier.name
-        %td= courier.delivery_option
-        %td.rates_column{data: {within_metro_manila: courier.within_metro_manila_rate,
-                                  outside_metro_manila: courier.outside_metro_manila_rate}}
+  %tbody#courier_table{data: {couriers: CourierRate.details.to_json}}
