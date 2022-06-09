@@ -1,11 +1,10 @@
 class CourierRate < ApplicationRecord
+  scope :details, -> { select(:id, :name, :within_metro_manila, :outside_metro_manila, :delivery_option) }
   enum delivery_option: %i[on-demand next-day]
 
-  def outside_metro_manila_rate
-    outside_metro_manila || 'N/A'
-  end
-
-  def within_metro_manila_rate
-    within_metro_manila || 'N/A'
+  def self.attributes
+    details.map do |courier|
+      courier.attributes.symbolize_keys
+    end
   end
 end
