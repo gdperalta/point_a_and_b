@@ -7,5 +7,29 @@
       %ul
         - shipment_quote.errors.each do |error|
           %li= error.full_message
+  .field
+    %h3 Pickup Address
+    = form.fields_for :pickup_address do |pickup_address|
+      = render 'address_fields', f: pickup_address
+  .field
+    %h3 Delivery Address
+    = form.fields_for :delivery_address do |delivery_address|
+      = render 'address_fields', f: delivery_address
+  .compute_button
+    %button#compute_button Compute Rates
   .actions
     = form.submit
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th Delivery Option
+      %th Rate
+  %tbody
+    - CourierRate.all.each do |courier|
+      %tr
+        %td= courier.name
+        %td= courier.delivery_option
+        %td.rates_column{data: {within_metro_manila: courier.within_metro_manila_rate,
+                                  outside_metro_manila: courier.outside_metro_manila_rate}}
