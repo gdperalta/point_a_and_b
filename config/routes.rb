@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
   resources :shipment_quotes
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+
+  root 'shipment_quotes#index'
 end
