@@ -5,17 +5,14 @@ class ShipmentQuote < ApplicationRecord
   accepts_nested_attributes_for :delivery_address
 
   def couriers
-    CourierRate.all.map do |courier|
-      courier_details = courier.attributes.symbolize_keys.slice(:name, :delivery_option)
-      courier_details[:rate] = courier_rate(courier)
-
-      courier_details
+    CourierRate.attributes.each do |courier|
+      courier[:rate] = courier_rate(courier)
     end
   end
 
   def courier_rate(courier)
     return unless pickup_address.province.upcase == 'METRO MANILA'
 
-    pickup_address.province == delivery_address.province ? courier.within_metro_manila : courier.outside_metro_manila
+    pickup_address.province == delivery_address.province ? courier[:within_metro_manila] : courier[:outside_metro_manila]
   end
 end
