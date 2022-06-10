@@ -1,19 +1,18 @@
-%p#notice= notice
-%h1 Shipment Quotes
-%table
+%table.table.table-striped
+  %caption Shipment Quotes
   %thead
     %tr
       %th Pickup Address
       %th Delivery Address
-      %th{:colspan => "3"}
+      %th{:colspan => "2"}
   %tbody
     - @shipment_quotes.each do |shipment_quote|
       %tr
         %td= shipment_quote.pickup_address.address1
         %td= shipment_quote.delivery_address.address1
-      %tr
-        %td= link_to 'Show', shipment_quote
-        %td= link_to 'Edit', edit_shipment_quote_path(shipment_quote)
-        %td= link_to 'Destroy', shipment_quote, method: :delete, data: { confirm: 'Are you sure?' }
-%br/
-= link_to 'New Shipment Quote', new_shipment_quote_path
+        %td
+          = link_to shipment_quote do
+            %i.bi.bi-eye
+        %td
+          =link_to shipment_quote, method: :delete, data: { confirm: 'Are you sure?' } do
+            %i.bi.bi-trash
