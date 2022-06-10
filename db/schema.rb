@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_08_135019) do
+ActiveRecord::Schema.define(version: 2022_06_10_031323) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,25 @@ ActiveRecord::Schema.define(version: 2022_06_08_135019) do
     t.integer "address_type"
   end
 
+  create_table "cities", force: :cascade do |t|
+    t.bigint "province_id", null: false
+    t.string "name"
+    t.datetime "created_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["province_id"], name: "index_cities_on_province_id"
+  end
+
+  create_table "countries", force: :cascade do |t|
+    t.string "name"
+    t.string "iso3"
+    t.string "iso2"
+    t.string "phone_code"
+    t.string "currency"
+    t.string "currency_symbol"
+    t.datetime "created_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
+  end
+
   create_table "courier_rates", force: :cascade do |t|
     t.string "name"
     t.integer "within_metro_manila"
@@ -34,6 +53,14 @@ ActiveRecord::Schema.define(version: 2022_06_08_135019) do
     t.integer "delivery_option"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "provinces", force: :cascade do |t|
+    t.bigint "country_id", null: false
+    t.string "name"
+    t.datetime "created_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: 6, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["country_id"], name: "index_provinces_on_country_id"
   end
 
   create_table "shipment_quotes", force: :cascade do |t|
@@ -45,6 +72,8 @@ ActiveRecord::Schema.define(version: 2022_06_08_135019) do
     t.index ["pickup_address_id"], name: "index_shipment_quotes_on_pickup_address_id"
   end
 
+  add_foreign_key "cities", "provinces"
+  add_foreign_key "provinces", "countries"
   add_foreign_key "shipment_quotes", "addresses", column: "delivery_address_id"
   add_foreign_key "shipment_quotes", "addresses", column: "pickup_address_id"
 end
