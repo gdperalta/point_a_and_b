@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_10_031323) do
+ActiveRecord::Schema.define(version: 2022_06_10_073254) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,13 +18,12 @@ ActiveRecord::Schema.define(version: 2022_06_10_031323) do
   create_table "addresses", force: :cascade do |t|
     t.string "address1"
     t.string "address2"
-    t.string "city"
-    t.string "province"
-    t.string "country"
     t.string "zip_code"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "address_type"
+    t.bigint "city_id", null: false
+    t.index ["city_id"], name: "index_addresses_on_city_id"
   end
 
   create_table "cities", force: :cascade do |t|
@@ -72,6 +71,7 @@ ActiveRecord::Schema.define(version: 2022_06_10_031323) do
     t.index ["pickup_address_id"], name: "index_shipment_quotes_on_pickup_address_id"
   end
 
+  add_foreign_key "addresses", "cities"
   add_foreign_key "cities", "provinces"
   add_foreign_key "provinces", "countries"
   add_foreign_key "shipment_quotes", "addresses", column: "delivery_address_id"
