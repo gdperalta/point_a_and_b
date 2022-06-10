@@ -11,8 +11,12 @@ class ShipmentQuote < ApplicationRecord
   end
 
   def courier_rate(courier)
-    return unless pickup_address.province.upcase == 'METRO MANILA'
+    return unless pickup_address.province_name.upcase == 'METRO MANILA'
 
-    pickup_address.province == delivery_address.province ? courier[:within_metro_manila] : courier[:outside_metro_manila]
+    if pickup_address.province_name == delivery_address.province_name
+      courier[:within_metro_manila]
+    else
+      courier[:outside_metro_manila]
+    end
   end
 end
