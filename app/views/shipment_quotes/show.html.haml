@@ -3,9 +3,13 @@
 .address_container 
     %h3 Pickup Address 
     %p= @shipment_quote.pickup_address.address1
+    %p= @shipment_quote.pickup_address.province_name
+    %p= @shipment_quote.pickup_address.city_name
 .address_container 
     %h3 Delivery Address 
     %p= @shipment_quote.delivery_address.address1
+    %p= @shipment_quote.delivery_address.province_name
+    %p= @shipment_quote.delivery_address.city_name
 %table
     %thead
         %tr
