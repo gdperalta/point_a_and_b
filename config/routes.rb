@@ -6,5 +6,5 @@ Rails.application.routes.draw do
   get '/cities', to: 'cities#index', as: 'cities'
   get '/provinces/:province_id/cities', to: 'cities#find_by_province', as: 'province_cities'
 
-  root 'shipment_quotes#index'
+  root 'shipment_quotes#new'
 end
