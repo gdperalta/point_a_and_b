@@ -15,6 +15,6 @@ class Address < ApplicationRecord
   end
 
   def country_name
-    province.country.name
+    city.province.country.name
   end
 end
