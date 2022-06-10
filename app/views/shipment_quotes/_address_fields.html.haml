@@ -1,16 +1,16 @@
-.field
-    = f.label :address1, 'Address'
-    = f.text_field :address1
-.field
-    = f.label :address2, 'Alternative Address'
-    = f.text_field :address2
-.field.location
-    %label Country
-    %select.countries
-    %label Province
-    %select.provinces
-    = f.label :city_id, 'City'
-    = f.select :city_id, [], {}, { class: 'cities' }
-.field
-    = f.label :zip_code, 'Zip Code'
-    = f.text_field :zip_code
+.mb-3
+    = f.label :address1, 'Address', class: 'form-label'
+    = f.text_field :address1, class: 'form-control'
+.mb-3
+    = f.label :address2, 'Alternative Address', class: 'form-label'
+    = f.text_field :address2, class: 'form-control'
+.mb-3.location
+    %label.form-label Country
+    %select.countries.form-select.mb-3
+    %label.form-label Province
+    %select.provinces.form-select.mb-3
+    = f.label :city_id, 'City', class: 'form-label'
+    = f.select :city_id, [], {}, { class: 'form-select cities' }
+.mb-3
+    = f.label :zip_code, 'Zip Code', class: 'form-label'
+    = f.text_field :zip_code, class: 'form-control'
