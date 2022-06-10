@@ -1,32 +1,35 @@
 = form_with(model: shipment_quote) do |form|
-  - if shipment_quote.errors.any?
-    #error_explanation
-      %h2
-        = pluralize(shipment_quote.errors.count, "error")
-        prohibited this shipment_quote from being saved:
-      %ul
-        - shipment_quote.errors.each do |error|
-          %li= error.full_message
-  .nested_field
-    %h3 Pickup Address
-    = form.fields_for :pickup_address do |pickup_address|
-      = render 'address_fields', f: pickup_address
-      = pickup_address.hidden_field :address_type, value: 'picskup'
-  .nested_field
-    %h3 Delivery Address
-    = form.fields_for :delivery_address do |delivery_address|
-      = render 'address_fields', f: delivery_address
-      = delivery_address.hidden_field :address_type, value: 'delivery'
-  .compute_button
-    %button#compute_button Compute Rates
-  .actions
-    = form.submit
+  .row.my-4.gx-5
+    .nested_field.col-6
+      .card
+        .card-header.bg-primary.text-white Pickup Address
+        .card-body.p-4
+          = form.fields_for :pickup_address do |pickup_address|
+            = render 'address_fields', f: pickup_address
+            = pickup_address.hidden_field :address_type, value: 'pickup'
+    .nested_field.col-6
+      .card
+        .card-header.bg-primary.text-white Delivery Address
+        .card-body.p-4
+          = form.fields_for :delivery_address do |delivery_address|
+            = render 'address_fields', f: delivery_address
+            = delivery_address.hidden_field :address_type, value: 'delivery'
+  .d-flex
+    .compute_button.me-3
+      %button#compute_button.btn.btn-lg.btn-primary{'data-bs-toggle': "modal", 'data-bs-target': "#courier_modal"}
+        Compute Rates
+    .actions
+      = form.submit 'Save Quotation', class: 'btn btn-primary btn-lg'
 
-%table
-  %thead
-    %tr
-      %th Name
-      %th Delivery Option
-      %th Rate
-  -# TODO Remove couriers data and use AJAX to fetch
-  %tbody#courier_table{data: {couriers: CourierRate.details.to_json}}
+.modal.fade#courier_modal{'tabindex': '-1', 'aria-labelledby': "courier_modal_label", 'aria-hidden': "true"}
+  .modal-dialog.modal-dialog-centered.modal-xl
+    .modal-content
+      .modal-body
+        %table.table
+          %caption Courier Rates
+          %thead
+            %tr
+              %th Name
+              %th Delivery Option
+              %th Rate
+          %tbody#courier_table{data: {couriers: CourierRate.details.to_json}}
