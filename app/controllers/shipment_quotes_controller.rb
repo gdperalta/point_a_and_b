@@ -2,7 +2,7 @@ class ShipmentQuotesController < ApplicationController
   before_action :set_shipment_quote, only: %i[show edit update destroy]
 
   def index
-    @shipment_quotes = ShipmentQuote.all
+    @shipment_quotes = ShipmentQuote.includes(:pickup_address, :delivery_address).all
   end
 
   def show; end
