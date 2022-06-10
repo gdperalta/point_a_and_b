@@ -7,14 +7,16 @@
       %ul
         - shipment_quote.errors.each do |error|
           %li= error.full_message
-  .field
+  .nested_field
     %h3 Pickup Address
     = form.fields_for :pickup_address do |pickup_address|
       = render 'address_fields', f: pickup_address
-  .field
+      = pickup_address.hidden_field :address_type, value: 'picskup'
+  .nested_field
     %h3 Delivery Address
     = form.fields_for :delivery_address do |delivery_address|
       = render 'address_fields', f: delivery_address
+      = delivery_address.hidden_field :address_type, value: 'delivery'
   .compute_button
     %button#compute_button Compute Rates
   .actions
@@ -26,4 +28,5 @@
       %th Name
       %th Delivery Option
       %th Rate
+  -# TODO Remove couriers data and use AJAX to fetch
   %tbody#courier_table{data: {couriers: CourierRate.details.to_json}}
