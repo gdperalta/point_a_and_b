@@ -62,10 +62,9 @@ class ShipmentQuotesController < ApplicationController
 
   def shipment_quote_params
     params.require(:shipment_quote).permit(:pickup_address_id, :delivery_address_id,
-                                           pickup_address_attributes: %i[id address1 address2 city province
-                                                                         country zip_code address_type],
-                                           delivery_address_attributes: %i[id address1 address2 city province
-                                                                           country zip_code address_type])
-
+                                           pickup_address_attributes: %i[id address1 address2 city_id
+                                                                         zip_code address_type],
+                                           delivery_address_attributes: %i[id address1 address2 city_id
+                                                                           zip_code address_type])
   end
 end
