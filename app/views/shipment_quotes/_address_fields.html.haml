@@ -4,15 +4,13 @@
 .field
     = f.label :address2, 'Alternative Address'
     = f.text_field :address2
-.field
-    = f.label :city, 'City'
-    = f.text_field :city
-.field
-    = f.label :province, 'Province'
-    = f.text_field :province, class: 'province_input'
-.field
-    = f.label :country, 'Country'
-    = f.text_field :country
+.field.location
+    %label Country
+    %select.countries
+    %label Province
+    %select.provinces
+    = f.label :city_id, 'City'
+    = f.select :city_id, [], {}, { class: 'cities' }
 .field
     = f.label :zip_code, 'Zip Code'
     = f.text_field :zip_code
