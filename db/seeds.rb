@@ -26,3 +26,21 @@ if ENV['courier_rates']
                          delivery_option: 'next-day' }
                      ])
 end
+
+if ENV['countries']
+  csv_dir = Rails.root.join('lib', 'seeds', 'countries.csv')
+  sql = "COPY countries (id, name, iso3, iso2, phone_code, currency, currency_symbol) FROM '#{csv_dir}' HEADER CSV"
+  ActiveRecord::Base.connection.execute(sql)
+end
+
+if ENV['provinces']
+  csv_dir = Rails.root.join('lib', 'seeds', 'provinces.csv')
+  sql = "COPY provinces (id, name, country_id) FROM '#{csv_dir}' HEADER CSV"
+  ActiveRecord::Base.connection.execute(sql)
+end
+
+if ENV['cities']
+  csv_dir = Rails.root.join('lib', 'seeds', 'cities.csv')
+  sql = "COPY cities (id, name, province_id) FROM '#{csv_dir}' HEADER CSV"
+  ActiveRecord::Base.connection.execute(sql)
+end
