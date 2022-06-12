@@ -4,12 +4,17 @@ import { filterData, assignData } from '../../utils/handleData';
 class ComputeRates {
 	constructor() {
 		this.courierTable = document.getElementById('courier_table');
-		// TODO Remove couriers data and use AJAX to fetch
 		this.couriers = JSON.parse(this.courierTable.dataset.couriers);
 		[this.pickupProvince, this.deliveryProvince] =
 			document.querySelectorAll('.provinces');
+		[this.pickupCities, this.deliveryCities] =
+			document.querySelectorAll('.cities');
 		this.computeBtn = document.getElementById('compute_button');
-		this.metro_manila_id = '1347';
+		this.metroManilaId = '1347';
+		this.invalidAddressMessage =
+			'We currently have no shipments available for pickup addresses outside Metro Manila';
+		this.requiredFieldsMessage =
+			'Please fill up the cities field to compute the courier rates';
 		this.addEvent();
 	}
 
@@ -21,35 +26,27 @@ class ComputeRates {
 		e.preventDefault();
 		this.courierTable.innerHTML = '';
 
-		// TODO create proper error message
-		if (this.pickupProvince.value !== this.metro_manila_id) {
-			this.errorMessage();
+		if (this.handleErrors()) {
 			return;
+		} else {
+			this.couriers.forEach((courier) => {
+				this.handleCourierRates(courier);
+			});
 		}
-
-		this.couriers.forEach((courier) => {
-			courier.rate = assignCurrency('Php', this.assignRates(courier));
-			if (courier.rate.includes('null')) return;
-
-			this.addFields(courier);
-		});
 	};
+
+	handleCourierRates(courier) {
+		courier.rate = assignCurrency('Php', this.assignRates(courier));
+		if (courier.rate.includes('null')) return;
+
+		this.addFields(courier);
+	}
 
 	addFields = (resource) => {
 		let row = document.createElement('tr');
 		let filteredData = filterData(resource);
 
 		assignData(filteredData, row);
-		this.courierTable.appendChild(row);
-	};
-
-	errorMessage = () => {
-		let row = document.createElement('tr');
-		let dataColumn = document.createElement('td');
-		dataColumn.colSpan = '3';
-		dataColumn.innerText =
-			'We currently have no shipments available for pickup addresses outside Metro Manila';
-		row.appendChild(dataColumn);
 		this.courierTable.appendChild(row);
 	};
 
@@ -61,6 +58,28 @@ class ComputeRates {
 
 	isWithinMetroManila = () => {
 		return this.pickupProvince.value === this.deliveryProvince.value;
+	};
+
+	handleErrors() {
+		if (!this.pickupCities.value || !this.deliveryCities.value) {
+			this.showErrorMessage(this.requiredFieldsMessage);
+			return true;
+		} else if (this.pickupProvince.value !== this.metroManilaId) {
+			this.showErrorMessage(this.invalidAddressMessage);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	showErrorMessage = (message) => {
+		// TODO create proper error message
+		let row = document.createElement('tr');
+		let dataColumn = document.createElement('td');
+		dataColumn.colSpan = '3';
+		dataColumn.innerText = message;
+		row.appendChild(dataColumn);
+		this.courierTable.appendChild(row);
 	};
 }
 
