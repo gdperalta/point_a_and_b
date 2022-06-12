@@ -1,0 +1,12 @@
+.modal.fade#courier_modal{'tabindex': '-1', 'aria-labelledby': "courier_modal_label", 'aria-hidden': "true"}
+  .modal-dialog.modal-dialog-centered.modal-xl
+    .modal-content
+      .modal-body
+        %table.table
+          %caption Courier Rates
+          %thead
+            %tr
+              %th Name
+              %th Delivery Option
+              %th Rate
+          %tbody#courier_table{data: {couriers: CourierRate.details.to_json}}
