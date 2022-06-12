@@ -3,8 +3,7 @@ class Address < ApplicationRecord
   has_many :shipment_quotes
   belongs_to :city
   validates :address1, presence: true
-  validates :city, presence: true
-  validates :zip_code, presence: true
+  validates :zip_code, presence: true, length: { is: 4 }
 
   def city_name
     city.name
