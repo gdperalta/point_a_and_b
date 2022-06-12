@@ -11,5 +11,11 @@ FactoryBot.define do
       country_id { 1 }
       name { 'Bulacan' }
     end
+
+    trait :outside_ph do
+      id { 3 }
+      country_id { 2 }
+      name { 'Outside PH' }
+    end
   end
 end
