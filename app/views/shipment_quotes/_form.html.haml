@@ -5,14 +5,14 @@
         .card-header.bg-primary.text-white Pickup Address
         .card-body.p-4
           = form.fields_for :pickup_address do |pickup_address|
-            = render 'address_fields', f: pickup_address
+            = render 'address_fields', f: pickup_address, address: @shipment_quote.pickup_address
             = pickup_address.hidden_field :address_type, value: 'pickup'
     .nested_field.col-6
       .card
         .card-header.bg-primary.text-white Delivery Address
         .card-body.p-4
           = form.fields_for :delivery_address do |delivery_address|
-            = render 'address_fields', f: delivery_address
+            = render 'address_fields', f: delivery_address, address: @shipment_quote.delivery_address
             = delivery_address.hidden_field :address_type, value: 'delivery'
   .d-flex
     .compute_button.me-3
@@ -21,15 +21,4 @@
     .actions
       = form.submit 'Save Quotation', class: 'btn btn-primary btn-lg'
 
-.modal.fade#courier_modal{'tabindex': '-1', 'aria-labelledby': "courier_modal_label", 'aria-hidden': "true"}
-  .modal-dialog.modal-dialog-centered.modal-xl
-    .modal-content
-      .modal-body
-        %table.table
-          %caption Courier Rates
-          %thead
-            %tr
-              %th Name
-              %th Delivery Option
-              %th Rate
-          %tbody#courier_table{data: {couriers: CourierRate.details.to_json}}
+= render 'modal/courier_table'
