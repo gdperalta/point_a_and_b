@@ -1,7 +1,14 @@
 require 'rails_helper'
 
-RSpec.describe "Countries", type: :request do
-  describe "GET /index" do
-    pending "add some examples (or delete) #{__FILE__}"
+RSpec.describe 'Countries', type: :request do
+  let!(:philippines) { create(:country, :ph) }
+  let!(:malaysia) { create(:country, :mal) }
+
+  describe 'GET /index' do
+    get countries_path
+
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include('Philippines')
+    expect(response.body).to include('Malaysia')
   end
 end
