@@ -19,12 +19,12 @@
             %th Delivery Option
             %th Rate
     %tbody
-        - CourierRate.all.each do |courier|
-            =next unless @shipment_quote.courier_rate(courier)
+        - @shipment_quote.couriers.each do |courier|
+            =next unless courier[:rate]
             %tr
-                %td= courier.name
-                %td= courier.delivery_option
-                %td= "Php #{@shipment_quote.courier_rate(courier)}"
+                %td= courier[:name]
+                %td= courier[:delivery_option]
+                %td= "Php #{courier[:rate]}"
 
 =link_to 'Edit', edit_shipment_quote_path(@shipment_quote), class: 'btn btn-primary'
 
