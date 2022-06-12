@@ -5,7 +5,7 @@ RSpec.feature 'Display Courier Rates', type: :feature do
   let!(:grab) { create(:courier_rate, :grab) }
   let!(:jnt_express) { create(:courier_rate, :jnt_express) }
   let!(:lbc) { create(:courier_rate, :lbc) }
-  let!(:philippines) { create(:country) }
+  let!(:philippines) { create(:country, :ph) }
   let!(:metro_manila) { create(:province, :metro_manila) }
   let!(:bulacan) { create(:province, :bulacan) }
   let!(:city1) { create(:city, :city1) }
