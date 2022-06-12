@@ -3,58 +3,46 @@ import ApiLocations from '../../services/apiLocations';
 class LocationOptions {
 	constructor() {
 		this.locations = new ApiLocations();
-		this.countries = this.getCountries();
 		this.countriesOptions = document.querySelectorAll('.countries');
+		[this.countriesOptionsPickup, this.countriesOptionsDelivery] =
+			this.countriesOptions;
 		this.provincesOptions = document.querySelectorAll('.provinces');
 		this.addEvents();
+		this.getLocations(this.countriesOptionsPickup);
+		this.getLocations(this.countriesOptionsDelivery);
 	}
 
 	addEvents() {
 		this.countriesOptions.forEach((el) => {
-			el.addEventListener('change', (e) => this.updateProvinceOptions(e));
+			el.addEventListener('change', (e) =>
+				this.updateSelectOptions(e, '.provinces')
+			);
 		});
 
 		this.provincesOptions.forEach((el) => {
-			el.addEventListener('change', (e) => this.updateCitiesOptions(e));
+			el.addEventListener('change', (e) => this.updateSelectOptions(e, '.cities'));
 		});
 	}
 
-	updateProvinceOptions(e) {
+	updateSelectOptions(e, query) {
 		e.preventDefault();
 
 		let field = e.target;
 		let parentField = field.parentElement;
-		let provincesField = parentField.querySelector('.provinces');
+		let selectInput = parentField.querySelector(query);
 
-		this.getProvinces(field.value, provincesField);
+		this.getLocations(selectInput, field.value);
 	}
 
-	updateCitiesOptions(e) {
-		e.preventDefault();
-
-		let field = e.target;
-		let parentField = field.parentElement;
-		let citiesField = parentField.querySelector('.cities');
-
-		this.getCities(field.value, citiesField);
-	}
-
-	async getCountries() {
-		const response = await this.locations.fetchCountries();
-
-		this.countriesOptions.forEach((selectInput) => {
-			this.appendOptions(response, selectInput);
-		});
-	}
-
-	async getProvinces(country_id, selectInput) {
-		const response = await this.locations.fetchProvinces(country_id);
-
-		this.appendOptions(response, selectInput);
-	}
-
-	async getCities(province_id, selectInput) {
-		const response = await this.locations.fetchCities(province_id);
+	async getLocations(selectInput, location_id = null) {
+		let response;
+		if (selectInput.className.includes('provinces')) {
+			response = await this.locations.fetchProvinces(location_id);
+		} else if (selectInput.className.includes('cities')) {
+			response = await this.locations.fetchCities(location_id);
+		} else if (selectInput.className.includes('countries')) {
+			response = await this.locations.fetchCountries();
+		}
 
 		this.appendOptions(response, selectInput);
 	}
@@ -62,6 +50,7 @@ class LocationOptions {
 	appendOptions(response, selectInput) {
 		length = selectInput.length;
 		this.removeOptions(selectInput);
+		selectInput.disabled = false;
 
 		response.forEach((data) => {
 			let option = document.createElement('option');
