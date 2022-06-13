@@ -23,5 +23,21 @@ FactoryBot.define do
       city_id { 2 }
       zip_code { '1002' }
     end
+
+    trait :delivery_outside do
+      id { 3 }
+      address1 { 'Test Address' }
+      address2 { 'Test Address 2' }
+      city_id { 2 }
+      zip_code { '1002' }
+    end
+
+    trait :outside_ph do
+      id { 4 }
+      address1 { 'Test Address' }
+      address2 { 'Test Address 2' }
+      city_id { 3 }
+      zip_code { '1002' }
+    end
   end
 end

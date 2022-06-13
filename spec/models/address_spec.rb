@@ -57,6 +57,17 @@ RSpec.describe Address, type: :model do
         expect(address.errors.to_hash.keys).to include(:city)
         expect(address.errors[:city]).to include('must exist')
       end
+
+      it 'is invalid if city is not in the Philippines' do
+        create(:country, :mal)
+        create(:province, :outside_ph)
+        create(:city, :city_outside_ph)
+        invalid_address = build(:address, :outside_ph)
+
+        expect(invalid_address).to_not be_valid
+        expect(invalid_address.errors.to_hash.keys).to include(:city_id)
+        expect(invalid_address.errors[:city_id]).to include('is not yet available for deliveries.')
+      end
     end
   end
 end
