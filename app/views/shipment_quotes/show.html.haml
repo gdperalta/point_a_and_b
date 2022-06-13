@@ -20,7 +20,6 @@
             %th Rate
     %tbody
         - @shipment_quote.couriers.each do |courier|
-            =next unless courier[:rate]
             %tr
                 %td= courier[:name]
                 %td= courier[:delivery_option]
