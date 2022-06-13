@@ -5,12 +5,11 @@ class ShipmentQuote < ApplicationRecord
   accepts_nested_attributes_for :delivery_address
 
   def couriers
-    shipment_couriers = CourierRate.attributes
-    shipment_couriers.each do |courier|
+    CourierRate.attributes.select do |courier|
       courier[:rate] = courier_rate(courier)
-    end
 
-    shipment_couriers
+      courier[:rate].present?
+    end
   end
 
   private
