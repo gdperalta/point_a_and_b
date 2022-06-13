@@ -1,0 +1,3 @@
+- if resource.errors.full_messages_for(field).any?
+    - resource.errors.full_messages_for(field).each do |error|
+        .text-danger.form-text= error
