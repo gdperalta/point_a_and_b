@@ -11,5 +11,11 @@ FactoryBot.define do
       province_id { 2 }
       name { 'City 2' }
     end
+
+    trait :city_outside_ph do
+      id { 3 }
+      province_id { 3 }
+      name { 'City 3' }
+    end
   end
 end
