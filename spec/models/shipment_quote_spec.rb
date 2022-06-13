@@ -20,7 +20,10 @@ RSpec.describe ShipmentQuote, type: :model do
       context 'within metro manila' do
         it 'returns the rates for shipments within metro manila' do
           quote_within = create(:shipment_quote, :within)
-          lalamove, grab, jnt_express, lbc = quote_within.couriers
+          couriers = quote_within.couriers
+          expect(couriers.size).to be(4)
+
+          lalamove, grab, jnt_express, lbc = couriers
           expect(lalamove).to include({ rate: 100 })
           expect(grab).to include({ rate: 120 })
           expect(jnt_express).to include({ rate: 80 })
@@ -31,10 +34,10 @@ RSpec.describe ShipmentQuote, type: :model do
       context 'outside metro manila' do
         it 'returns the rates for shipments outside metro manila' do
           quote_outside = create(:shipment_quote, :outside)
-          lalamove, grab, jnt_express, lbc = quote_outside.couriers
+          couriers = quote_outside.couriers
+          expect(couriers.size).to be(2)
 
-          expect(lalamove).to include({ rate: nil })
-          expect(grab).to include({ rate: nil })
+          jnt_express, lbc = couriers
           expect(jnt_express).to include({ rate: 100 })
           expect(lbc).to include({ rate: 120 })
         end
